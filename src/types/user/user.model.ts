@@ -63,11 +63,10 @@ export interface IUserSkills{
     skill_id?:number;
     user_id?:number;
 }
+
+
 @Table
 export default class UserSkills extends Model<IUserSkills>{
-
-    // @BelongsToMany(()=>)
-
     @ForeignKey(()=>Skill)
     @Column
     skill_id:number;

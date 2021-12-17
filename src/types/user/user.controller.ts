@@ -1,7 +1,5 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Next, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/common/auth/auth.guard';
-import { RolesGuard } from 'src/common/auth/roles.guard';
 import { CreateUserDTO } from './dto/create_user.dto';
 import { UpdateUserDTO } from './dto/update_user.dto';
 import { User } from './user.model';
@@ -9,14 +7,16 @@ import { UserService } from './user.service';
 
 @ApiTags('user')
 @Controller()
-// @UseGuards(new AuthGuard())
 export class UserController {
 
     constructor(private userService: UserService) { }
 
     @Get()
     async getAll(): Promise<User[]> {
-        return await this.userService.findAll();
+        try{
+            return await this.userService.findAll();
+        }
+        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 
     @Get(':id')
@@ -28,9 +28,7 @@ export class UserController {
 
             return user
         }
-        catch (err) {
-            throw new HttpException(err.message, HttpStatus.FORBIDDEN);
-        }
+        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 
     @Post()
@@ -38,10 +36,7 @@ export class UserController {
         try {
             return await this.userService.create(createUserDTO)
         }
-        catch (err) {
-            console.log(err)
-            throw new HttpException(err.message, HttpStatus.FORBIDDEN);
-        }
+        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 
     @Put()
@@ -49,9 +44,7 @@ export class UserController {
         try {
             return await this.userService.update(updateUserDTO);
         }
-        catch (err) {
-            throw new HttpException(err.message, HttpStatus.FORBIDDEN);
-        }
+        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 
     @Delete(':id')
@@ -59,9 +52,6 @@ export class UserController {
         try {
             return await this.userService.delete(id)
         }
-        catch (err) {
-            throw new HttpException(err.message, HttpStatus.FORBIDDEN);
-
-        }
+        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 }
