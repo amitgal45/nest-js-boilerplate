@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import BaseService from 'src/common/base.service';
+import BaseService from 'src/common/exception/base.service';
 import { Location } from './location.model';
 
 @Injectable()

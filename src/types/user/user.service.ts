@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from './user.model';
 import {Location} from '../location/location.model';
-import BaseService from 'src/common/base.service';
+import BaseService from 'src/common/exception/base.service';
 import { CreateUserDTO } from './dto/create_user.dto';
 
 @Injectable()

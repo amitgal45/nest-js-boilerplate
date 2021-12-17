@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
-import UserSkills, { User } from 'src/user/user.model';
-import { Location } from 'src/location/location.model';
+import UserSkills, { User } from 'src/types/user/user.model';
+import { Location } from 'src/types/location/location.model';
 import { Skill } from 'src/types/skill/skill.model';
 import configuration from './configuration';
 

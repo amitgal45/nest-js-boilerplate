@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Next, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { AuthGuard } from 'src/common/auth/auth.guard';
+import { RolesGuard } from 'src/common/auth/roles.guard';
 import { CreateUserDTO } from './dto/create_user.dto';
 import { UpdateUserDTO } from './dto/update_user.dto';
 import { User } from './user.model';

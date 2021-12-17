@@ -1,11 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "sequelize-typescript";
 // import { ne } from "sequelize/dist/lib/operators";
-import { ILocation, Location } from "src/location/location.model";
+import { ILocation, Location } from "src/types/location/location.model";
 import { ISkill, Skill } from "src/types/skill/skill.model";
-import { CreateUserDTO } from "src/user/dto/create_user.dto";
-import { UpdateUserDTO } from "src/user/dto/update_user.dto";
-import UserSkills, { IUser, IUserSkills, User } from "src/user/user.model";
+import { CreateUserDTO } from "src/types/user/dto/create_user.dto";
+import { UpdateUserDTO } from "src/types/user/dto/update_user.dto";
+import UserSkills, { IUser, IUserSkills, User } from "src/types/user/user.model";
 
 @Injectable()
 export default class  BaseService {

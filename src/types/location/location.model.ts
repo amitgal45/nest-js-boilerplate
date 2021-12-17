@@ -1,5 +1,5 @@
 import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
-import { User } from 'src/user/user.model';
+import { User } from 'src/types/user/user.model';
 
 export interface ILocation {
     id?: number;

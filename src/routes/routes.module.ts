@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from 'src/types/user/user.module';
 
 @Module({
     imports: [RouterModule.register([

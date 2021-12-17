@@ -1,5 +1,5 @@
 import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
-import UserSkills, { User } from 'src/user/user.model';
+import UserSkills, { User } from 'src/types/user/user.model';
 
 export interface ISkill {
     id?: number;
