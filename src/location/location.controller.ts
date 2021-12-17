@@ -32,6 +32,7 @@ export class LocationController {
             return location
         }
         catch (err) {
+            
             throw new HttpException(err.message, HttpStatus.FORBIDDEN);
         }
     }
