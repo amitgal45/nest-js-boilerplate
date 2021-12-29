@@ -1,48 +1,49 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Model } from "sequelize-typescript";
+import { IKitchen, Kitchen } from "src/types/kitchen/kitchen.model";
 // import { ne } from "sequelize/dist/lib/operators";
 import { ILocation, Location } from "src/types/location/location.model";
-import { ISkill, Skill } from "src/types/skill/skill.model";
+import { IProduct, Product } from "src/types/product/product.model";
 import { CreateUserDTO } from "src/types/user/dto/create_user.dto";
 import { UpdateUserDTO } from "src/types/user/dto/update_user.dto";
-import UserSkills, { IUser, IUserSkills, User } from "src/types/user/user.model";
+import UserProducts, { IUser, IUserProduct, User } from "src/types/user/user.model";
 
 @Injectable()
 export default class  BaseService {
-    constructor(protected value: typeof Location | typeof User | typeof UserSkills | typeof Skill) {
+    constructor(protected value: typeof Location | typeof User | typeof UserProducts | typeof Product | typeof Kitchen) {
     }
 
     async findAll(): Promise<any[]> {
-        return await this.value.findAll<User | Location | Skill | UserSkills>()
+        return await this.value.findAll<User | Location | Product | UserProducts | Kitchen>()
         .catch(err=>{throw err})
     }
 
 
     async findOne(id: number): Promise<any> {
-        return await this.value.findOne<User | Location | Skill | UserSkills>({ where: { id: id } })
+        return await this.value.findOne<User | Location | Product | UserProducts |Kitchen>({ where: { id: id } })
         .catch(err=>{throw err})
 
     }
 
     async findByKeyValue(key: string, value: any): Promise<any> {
-        return await this.value.findOne<User | Location | Skill | UserSkills>({ where: { [key]: value } })
+        return await this.value.findOne<User | Location | Product | UserProducts | Kitchen>({ where: { [key]: value } })
         .catch(err=>{throw err})
 
     }
 
-    async create(new_value: CreateUserDTO | ILocation | ISkill | IUserSkills): Promise<any> {
-        return await this.value.create<User | Location | Skill | UserSkills>(new_value as any)
+    async create(new_value: CreateUserDTO | ILocation | IProduct | UserProducts|Kitchen): Promise<any> {
+        return await this.value.create<User | Location | Product | UserProducts|Kitchen>(new_value as any)
         .catch(err=>{throw err})
 
     }
 
-    async update(new_value:UpdateUserDTO| ILocation | ISkill | IUserSkills):Promise<any>{
-        return await this.value.update<User | Location | Skill | UserSkills>(new_value,{where:{id:new_value.id}})
+    async update(new_value:UpdateUserDTO| ILocation | IProduct | IUserProduct|IKitchen):Promise<any>{
+        return await this.value.update<User | Location | Product | UserProducts|Kitchen>(new_value,{where:{id:new_value.id}})
         .catch(err=>{throw err})
 
     }
 
     async delete(id: number): Promise<any> {
-        return await this.value.destroy<User | Location | Skill | UserSkills>({ where: { id: id } })
+        return await this.value.destroy<User | Location | Product | UserProducts | Kitchen>({ where: { id: id } })
     }
 }

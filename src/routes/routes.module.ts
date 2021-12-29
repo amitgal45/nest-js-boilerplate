@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
+import { KitchenModule } from 'src/types/kitchen/kitchen.module';
+import { LocationModule } from 'src/types/location/location.module';
 import { UserModule } from 'src/types/user/user.module';
 
 @Module({
@@ -10,6 +12,14 @@ import { UserModule } from 'src/types/user/user.module';
                 {
                     path: 'user',
                     module: UserModule,
+                },
+                {
+                    path: 'kitchen',
+                    module: KitchenModule,
+                },
+                {
+                    path: 'location',
+                    module: LocationModule,
                 }
             ]
         },

@@ -1,12 +1,14 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
-import { Skill } from 'src/types/skill/skill.model';
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Sequelize, Table } from 'sequelize-typescript';
+import { Product } from 'src/types/product/product.model';
+import { Image } from '../image/image.model';
+import { Kitchen } from '../kitchen/kitchen.model';
 import { Location } from '../location/location.model';
 
 export interface IUser {
     id?: number;
-    firstName: string;
-    lastName: string;
-    isActive: boolean;
+    first_name: string;
+    last_name: string;
+    is_active: boolean;
     email?: string;
     password?: string;
 }
@@ -18,10 +20,10 @@ export class User extends Model<IUser> {
     id: number;
 
     @Column
-    firstName: string;
+    first_name: string;
 
     @Column
-    lastName: string;
+    last_name: string;
 
     @Column
     email: string;
@@ -30,46 +32,60 @@ export class User extends Model<IUser> {
     password: string;
 
     @Column({ defaultValue: true })
-    isActive: boolean;
+    is_active: boolean;
 
     @Column({
         type: DataType.DATE,
         field: 'createdAt',
-        allowNull: true,
+        defaultValue:Sequelize.fn('NOW')
     })
     createdAt: Date;
 
     @Column({
         type: DataType.DATE,
         field: 'updatedAt',
-        allowNull: true,
+        defaultValue:Sequelize.fn('NOW')
     })
     updatedAt?: Date;
 
     @ForeignKey(()=>Location)
     @Column({ field: 'location_id' })
-    location_id: number
+    location_id: number;
 
     @BelongsTo(() => Location)
     location: Location
 
-    @BelongsToMany(() => Skill,()=>UserSkills)
-    skills: Skill[]
+    @ForeignKey(()=>Image)
+    @Column({ field: 'image_id' })
+    image_id: number;
+
+    @BelongsTo(() => Image)
+    image: Image;
+
+    @ForeignKey(()=>Kitchen)
+    @Column({ field: 'kitchen_id' })
+    kitchen_id: number;
+
+    @BelongsTo(() => Kitchen)
+    kitchen: Kitchen;
+
+    @BelongsToMany(() => Product,()=>UserProducts)
+    skills: Product[];
 }
 
 
-export interface IUserSkills{
+export interface IUserProduct{
     id?:number;
-    skill_id?:number;
+    product_id?:number;
     user_id?:number;
 }
 
 
 @Table
-export default class UserSkills extends Model<IUserSkills>{
-    @ForeignKey(()=>Skill)
+export default class UserProducts extends Model<IUserProduct>{
+    @ForeignKey(()=>Product)
     @Column
-    skill_id:number;
+    product_id:number;
 
     @ForeignKey(()=>User)
     @Column

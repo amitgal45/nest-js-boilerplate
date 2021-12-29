@@ -6,7 +6,7 @@ import { Location } from './location.model';
 import { LocationService } from './location.service';
 
 @ApiTags('location')
-@Controller('location')
+@Controller()
 export class LocationController {
 
     /**
@@ -15,6 +15,18 @@ export class LocationController {
     constructor(private locationService: LocationService) {
         // super();
 
+    }
+    
+    @Get('ddd')
+    async distanceBetweenyTwoUsers():Promise<any>{
+        try {
+            await this.locationService.DistanceBetweenTwoPoints('','');
+            return {status:200,message:'success'}
+        }
+        catch (err) {
+            
+            throw new HttpException(err.message, HttpStatus.FORBIDDEN);
+        }
     }
 
     @Get()
@@ -36,6 +48,8 @@ export class LocationController {
             throw new HttpException(err.message, HttpStatus.FORBIDDEN);
         }
     }
+
+
 
     @Post()
     async create(@Body() createUserDTO: CreateLocationDTO) {

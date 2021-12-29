@@ -15,6 +15,8 @@ export class CreateLocationDTO {
     @ApiProperty()
     latitude: number;
 
+    location:any
+
     @IsString()
     @ApiProperty()
     city_name: string;

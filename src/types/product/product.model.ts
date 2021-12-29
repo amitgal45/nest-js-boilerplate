@@ -1,14 +1,15 @@
 import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import UserSkills, { User } from 'src/types/user/user.model';
+import FridgeProduct, { Kitchen } from '../kitchen/kitchen.model';
 
-export interface ISkill {
+export interface IProduct {
     id?: number;
     name:string;
     img:string;
 }
 
 @Table
-export class Skill extends Model<ISkill> {
+export class Product extends Model<IProduct> {
 
     @Column({ field: 'ID', primaryKey: true, autoIncrement: true, type: DataType.BIGINT })
     id: number;
@@ -33,8 +34,8 @@ export class Skill extends Model<ISkill> {
     })
     updatedAt?: Date;
 
-    @BelongsToMany(() => User,()=>UserSkills)
-    users: User[]
+    @BelongsToMany(() => Kitchen,()=>FridgeProduct)
+    kitchens: Kitchen[]
     // @BelongsToMany(() => User,"user_skill")
     // users: User[]
 }
