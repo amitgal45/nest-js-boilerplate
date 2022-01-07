@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean ,IsEmail,IsString, Length } from 'class-validator';
-// import { Length } from "sequelize-typescript";
+import { IsEmail,IsString, Length } from 'class-validator';
 
 export class CreateUserDTO {
     
@@ -26,8 +25,24 @@ export class CreateUserDTO {
     @ApiProperty()
     last_name: string;
 
-    @IsBoolean()
     @ApiProperty()
     is_active: boolean;
 
+}
+
+export const createUserDTOSwagger = {
+    schema: {
+        type: 'object',
+        properties: {
+            file: {
+                type: 'string',
+                format: 'binary',
+            },
+            email:{type:'string'},
+            password:{type:'string'},
+            first_name:{type:'string'},
+            last_name:{type:'string'},
+            is_active:{type:'boolean'}
+        },
+    },
 }

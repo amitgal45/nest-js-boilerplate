@@ -1,6 +1,11 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { CreateUserDTO } from './dto/create_user.dto';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { multerOptions } from 'src/common/services/file_name.config';
+import { Image } from '../image/image.model';
+import { ImageService } from '../image/image.service';
+// import { ImageService } from '../image/image.service';
+import { CreateUserDTO, createUserDTOSwagger } from './dto/create_user.dto';
 import { UpdateUserDTO } from './dto/update_user.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
@@ -9,14 +14,14 @@ import { UserService } from './user.service';
 @Controller()
 export class UserController {
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private imageService: ImageService) { }
 
     @Get()
     async getAll(): Promise<User[]> {
-        try{
+        try {
             return await this.userService.findAll();
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+        catch (err) { throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
     }
 
     @Get(':id')
@@ -28,15 +33,21 @@ export class UserController {
 
             return user
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+        catch (err) { throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
     }
 
     @Post()
-    async create(@Body() createUserDTO: CreateUserDTO) {
+    @ApiConsumes('multipart/form-data')
+    @ApiBody(createUserDTOSwagger)
+    @UseInterceptors(FileInterceptor('file', multerOptions))
+    async create(@Body() createUserDTO: CreateUserDTO, @UploadedFile() file: Express.Multer.File) {
         try {
-            return await this.userService.create(createUserDTO)
+            const user: User = await this.userService.create(createUserDTO);
+            const image: Image = await this.imageService.create(file.filename);
+            user.image_id = image.id;
+            return await user.save()
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+        catch (err) { throw (new HttpException(err.message, HttpStatus.FORBIDDEN)) };
     }
 
     @Put()
@@ -44,7 +55,7 @@ export class UserController {
         try {
             return await this.userService.update(updateUserDTO);
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+        catch (err) { throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
     }
 
     @Delete(':id')
@@ -52,6 +63,6 @@ export class UserController {
         try {
             return await this.userService.delete(id)
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+        catch (err) { throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
     }
 }

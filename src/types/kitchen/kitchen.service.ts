@@ -18,11 +18,10 @@ export class KitchenService extends BaseService {
 
     @Cron('30 * * * * *')
     async handleCron() {
-
         await KitchenProduct.update({is_expired:true},{where:{
             createdAt: { [Op.lte]: moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD')}
         }});
-        
+
     }
 
     override async findAll(): Promise<Kitchen[]> {

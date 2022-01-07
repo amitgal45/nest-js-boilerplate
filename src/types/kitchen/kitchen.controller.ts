@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateKitchenDTO } from './dto/create_kitchen.dto';
 import { Kitchen } from './kitchen.model';
 import { KitchenService } from './kitchen.service';
 
@@ -29,13 +30,17 @@ export class KitchenController {
         catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 
-    // @Post()
-    // async create(@Body() createUserDTO: CreateUserDTO) {
-    //     try {
-    //         return await this.kitchenService.create(createUserDTO)
-    //     }
-    //     catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
-    // }
+    @Post()
+    async create(@Body() createKitchenDTO: CreateKitchenDTO) {
+        try {
+            const kitchen:Kitchen = await this.kitchenService.findByKeyValue("user_id",createKitchenDTO.user_id);
+            if(kitchen!=null)
+                throw new Error("למשתמש כבר קיים מטבח")
+            
+            return await this.kitchenService.create(createKitchenDTO)
+        }
+        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+    }
 
     // @Put()
     // async update(@Body() updateUserDTO: UpdateUserDTO) {

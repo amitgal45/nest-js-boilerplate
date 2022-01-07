@@ -1,17 +1,9 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, HasOne, Model, Sequelize, Table } from 'sequelize-typescript';
-import { Col } from 'sequelize/dist/lib/utils';
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey,HasOne,Model, Sequelize, Table } from 'sequelize-typescript';
 import { User } from 'src/types/user/user.model';
-// import {GEOMETRY,GEOGRAPHY} from 'sequelize'
-import { STRING,GEOGRAPHY } from 'sequelize/types';
 import { Product } from '../product/product.model';
 export interface IKitchen {
     id?: number;
-    longitude: number;
-    latitude: number;
-    location:{type:string,coordinates:number[]};
-    // isActive: boolean;
-    city_name: string;
-    // password: string;
+    user_id:number;
 }
 
 @Table
@@ -36,10 +28,7 @@ export class Kitchen extends Model<IKitchen> {
 
     @BelongsToMany(() => Product,()=>KitchenProduct)
     products: Product[];
-
-
-    // @BelongsTo(()=>User,"kitchen_id")
-    
+ 
 }
 
 export interface IKitchenProduct{

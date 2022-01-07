@@ -4,9 +4,15 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 // import cookieParser from 'cookie-parser';
 import * as cookieParser from 'cookie-parser';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
+// import {static} from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.useStaticAssets(join(__dirname, '..', 'uploads'),{prefix:'/public/'}); // Serving the images on uploads folder
+  
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
 

@@ -16,7 +16,7 @@ export interface IUser {
 @Table
 export class User extends Model<IUser> {
 
-    @Column({ field: 'ID', primaryKey: true, autoIncrement: true, type: DataType.BIGINT })
+    @Column({  primaryKey: true, autoIncrement: true, type: DataType.BIGINT })
     id: number;
 
     @Column
@@ -25,7 +25,7 @@ export class User extends Model<IUser> {
     @Column
     last_name: string;
 
-    @Column
+    @Column({field:'email',unique:true,type:DataType.STRING})
     email: string;
 
     @Column
@@ -68,6 +68,11 @@ export class User extends Model<IUser> {
 
     @BelongsTo(() => Kitchen)
     kitchen: Kitchen;
+    // @BelongsTo(() => Kitchen)
+    // kitchen: Kitchen;
+
+    // @BelongsTo(()=>Kitchen)
+    // kitchen:Kitchen
 
     @BelongsToMany(() => Product,()=>UserProducts)
     skills: Product[];
