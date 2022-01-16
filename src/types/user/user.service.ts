@@ -7,6 +7,8 @@ import sequelize, { Op } from 'sequelize'
 import { Kitchen } from '../kitchen/kitchen.model';
 import { Product } from '../product/product.model';
 import { Image } from '../image/image.model';
+import UserRecipe from '../recipe/child_model/user_recipe.model';
+import { Recipe } from '../recipe/recipe.model';
 
 @Injectable()
 export class UserService extends BaseService {
@@ -40,7 +42,9 @@ export class UserService extends BaseService {
             ], include: [
                 { model: Image, as: 'image', attributes: [] },
                 { model: Location, as: 'location' },
-                { model: Kitchen, include: [{ model: Product, through: { attributes: [] } }] }
+                { model: Kitchen, include: [{ model: Product, through: { attributes: [] } }] },
+                { model: Recipe, through:{attributes:[]},include: [{ model: Product,through:{attributes:[]} }] }
+
             ]
         });
     }

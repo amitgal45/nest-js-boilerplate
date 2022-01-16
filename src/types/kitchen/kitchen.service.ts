@@ -2,10 +2,11 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import sequelize from 'sequelize';
 import BaseService from 'src/common/services/base.service';
 import { Product } from '../product/product.model';
-import KitchenProduct, { IKitchenProduct, Kitchen } from './kitchen.model';
+// import KitchenProduct, { IKitchenProduct, Kitchen } from './kitchen.model';
 import { Cron } from '@nestjs/schedule';
 import { Op } from 'sequelize';
 import * as moment from 'moment';
+import { Kitchen } from './kitchen.model';
 
 @Injectable()
 export class KitchenService extends BaseService {
@@ -16,13 +17,13 @@ export class KitchenService extends BaseService {
 
     private readonly logger = new Logger(KitchenService.name);
 
-    @Cron('30 * * * * *')
-    async handleCron() {
-        await KitchenProduct.update({is_expired:true},{where:{
-            createdAt: { [Op.lte]: moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD')}
-        }});
+    // @Cron('30 * * * * *')
+    // async handleCron() {
+    //     await KitchenProduct.update({is_expired:true},{where:{
+    //         createdAt: { [Op.lte]: moment(Date.now() - 7 * 24 * 3600 * 1000).format('YYYY-MM-DD')}
+    //     }});
 
-    }
+    // }
 
     override async findAll(): Promise<Kitchen[]> {
         return await this.kitchenRepository.findAll<Kitchen>({ include: { model: Product, through: { attributes: [] } } })

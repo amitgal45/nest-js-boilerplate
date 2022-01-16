@@ -18,6 +18,7 @@ import { join } from 'path';
 import { isEmailValidMiddleware } from './types/user/middleware/is-email-avaliable';
 import { UserController } from './types/user/user.controller';
 import { isUserExistsMiddleware } from './types/user/middleware/is-user-exists';
+import { RecipeModule } from './types/recipe/recipe.module';
 
 
 @Module({
@@ -32,7 +33,8 @@ import { isUserExistsMiddleware } from './types/user/middleware/is-user-exists';
     AuthModule,
     ImageModule,
     KitchenModule,
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
+    RecipeModule
   ],
   controllers: [AppController],
 
