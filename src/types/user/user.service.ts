@@ -6,6 +6,9 @@ import { CreateUserDTO } from './dto/create_user.dto';
 import sequelize, { Op } from 'sequelize'
 import { Kitchen } from '../kitchen/kitchen.model';
 import { Product } from '../product/product.model';
+import { Image } from '../image/image.model';
+import UserRecipe from '../recipe/child_model/user_recipe.model';
+import { Recipe } from '../recipe/recipe.model';
 
 @Injectable()
 export class UserService extends BaseService {
@@ -33,7 +36,17 @@ export class UserService extends BaseService {
     }
 
     override async findOne(id: number): Promise<User> {
-        return await this.usersRepository.findOne<User>({ where: { id: id }, include: [{ model: Location }, { model: Kitchen,include:[{model:Product,through:{attributes:[]}}] }] });
+        return await this.usersRepository.findOne<User>({
+            subQuery: false, where: { id: id.toString() }, attributes: [
+                [sequelize.col('image.imageUrl'), 'imageUrl'], // Take imageUrl parameter from image Model...
+            ], include: [
+                { model: Image, as: 'image', attributes: [] },
+                { model: Location, as: 'location' },
+                { model: Kitchen, include: [{ model: Product, through: { attributes: [] } }] },
+                { model: Recipe, through:{attributes:[]},include: [{ model: Product,through:{attributes:[]} }] }
+
+            ]
+        });
     }
 
     override  async create(new_value: CreateUserDTO): Promise<any> {

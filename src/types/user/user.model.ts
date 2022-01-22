@@ -3,6 +3,9 @@ import { Product } from 'src/types/product/product.model';
 import { Image } from '../image/image.model';
 import { Kitchen } from '../kitchen/kitchen.model';
 import { Location } from '../location/location.model';
+import UserRecipe from '../recipe/child_model/user_recipe.model';
+import { Recipe } from '../recipe/recipe.model';
+import UserProducts from './child_model/user_product.model';
 
 export interface IUser {
     id?: number;
@@ -16,7 +19,7 @@ export interface IUser {
 @Table
 export class User extends Model<IUser> {
 
-    @Column({ field: 'ID', primaryKey: true, autoIncrement: true, type: DataType.BIGINT })
+    @Column({  primaryKey: true, autoIncrement: true, type: DataType.BIGINT })
     id: number;
 
     @Column
@@ -25,7 +28,7 @@ export class User extends Model<IUser> {
     @Column
     last_name: string;
 
-    @Column
+    @Column({field:'email',unique:true,type:DataType.STRING})
     email: string;
 
     @Column
@@ -70,25 +73,11 @@ export class User extends Model<IUser> {
     kitchen: Kitchen;
 
     @BelongsToMany(() => Product,()=>UserProducts)
-    skills: Product[];
+    products: Product[];
+
+    @BelongsToMany(()=>Recipe,()=> UserRecipe)
+    recipes:Recipe[]
 }
 
 
-export interface IUserProduct{
-    id?:number;
-    product_id?:number;
-    user_id?:number;
-}
-
-
-@Table
-export default class UserProducts extends Model<IUserProduct>{
-    @ForeignKey(()=>Product)
-    @Column
-    product_id:number;
-
-    @ForeignKey(()=>User)
-    @Column
-    user_id:number;
-}
 

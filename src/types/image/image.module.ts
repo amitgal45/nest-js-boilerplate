@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/config/database.module';
 import { ImageController } from './image.controller';
 import { imageProviders } from './image.provider';
-
 import { ImageService } from './image.service';
 
 @Module({

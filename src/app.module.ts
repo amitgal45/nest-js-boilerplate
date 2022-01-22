@@ -9,10 +9,23 @@ import { RoutesModule } from './routes/routes.module';
 import { AuthModule } from './common/auth/auth.module';
 import { ImageModule } from './types/image/image.module';
 import { KitchenModule } from './types/kitchen/kitchen.module';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MulterModule } from '@nestjs/platform-express';
+import MulterConfigService from './common/services/multer.service';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { isEmailValidMiddleware } from './types/user/middleware/is-email-avaliable';
+import { UserController } from './types/user/user.controller';
+import { isUserExistsMiddleware } from './types/user/middleware/is-user-exists';
+import { RecipeModule } from './types/recipe/recipe.module';
+
+
 @Module({
   imports: [
+    MulterModule.registerAsync({
+      useClass: MulterConfigService,
+    }),
     RoutesModule,
     UserModule,
     LocationModule,
@@ -20,15 +33,25 @@ import { ScheduleModule } from '@nestjs/schedule';
     AuthModule,
     ImageModule,
     KitchenModule,
-    ScheduleModule.forRoot()
-
-    
+    ScheduleModule.forRoot(),
+    RecipeModule
   ],
   controllers: [AppController],
-  providers: [AppService,     // {
+
+  providers: [AppService,    // {
     //   provide: APP_GUARD,
     //   useClass: RolesGuard,
     // },
     ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    // consumer
+    //   .apply(isEmailValidMiddleware)
+    //   .forRoutes({ path: 'api/user', method: RequestMethod.POST });
+
+    consumer
+      .apply(isUserExistsMiddleware)
+      .forRoutes({ path: 'api/user/:id', method: RequestMethod.GET });
+  }
+}

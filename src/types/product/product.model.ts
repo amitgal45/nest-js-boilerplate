@@ -1,6 +1,8 @@
-import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
-import UserSkills, { User } from 'src/types/user/user.model';
-import FridgeProduct, { Kitchen } from '../kitchen/kitchen.model';
+import {  BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import KitchenProduct from '../kitchen/child_model/kitchen_product.model';
+import { Kitchen } from '../kitchen/kitchen.model';
+import RecipeProduct from '../recipe/child_model/recipe_product.model';
+import { Recipe } from '../recipe/recipe.model';
 
 export interface IProduct {
     id?: number;
@@ -34,9 +36,11 @@ export class Product extends Model<IProduct> {
     })
     updatedAt?: Date;
 
-    @BelongsToMany(() => Kitchen,()=>FridgeProduct)
+    @BelongsToMany(() => Kitchen,()=>KitchenProduct)
     kitchens: Kitchen[]
-    // @BelongsToMany(() => User,"user_skill")
-    // users: User[]
+
+    @BelongsToMany(() => Recipe,()=>RecipeProduct)
+    recipes: Recipe[];
+
 }
 
