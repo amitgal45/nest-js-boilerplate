@@ -8,8 +8,17 @@ export interface IProduct {
     id?: number;
     name:string;
     img:string;
+    description:string;
+    type:ProductType;
+    
 }
 
+export enum ProductType {
+    דגנים,
+    לחם,
+    עוף,
+    בשר,
+}
 @Table
 export class Product extends Model<IProduct> {
 
@@ -18,6 +27,12 @@ export class Product extends Model<IProduct> {
 
     @Column
     name: string;
+
+    @Column
+    description: string;
+
+    @Column
+    type: string;
 
     @Column
     img: string;

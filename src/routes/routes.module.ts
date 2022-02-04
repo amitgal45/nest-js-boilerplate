@@ -3,6 +3,7 @@ import { RouterModule } from '@nestjs/core';
 import { ImageModule } from 'src/types/image/image.module';
 import { KitchenModule } from 'src/types/kitchen/kitchen.module';
 import { LocationModule } from 'src/types/location/location.module';
+import { ProductModule } from 'src/types/product/product.module';
 import { UserModule } from 'src/types/user/user.module';
 
 @Module({
@@ -25,6 +26,10 @@ import { UserModule } from 'src/types/user/user.module';
                 {
                     path: 'image',
                     module: ImageModule,
+                },
+                {
+                    path: 'product',
+                    module: ProductModule,
                 },
             ]
         },
