@@ -9,8 +9,8 @@ export interface IProduct {
     id?: number;
     name:string;
     img:string;
-    description:string;
-    type:ProductType;
+    description?:string;
+    type?:ProductType;
     
 }
 

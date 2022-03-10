@@ -44,12 +44,9 @@ export class KitchenService extends BaseService {
     //     return await this.usersRepository.findOne<User>({ where: { id: id }, include: { model: Location } });
     // }
 
-    override  async create(): Promise<any> {
-        return await this.kitchenRepository.create<Kitchen>()
-    }
 
     override  async delete(id:number): Promise<any> {
-        return await this.kitchenRepository.destroy<Kitchen>({where:{ID:id}})
+        return await this.kitchenRepository.destroy<Kitchen>({where:{id:id}})
     }
 
 
