@@ -4,9 +4,10 @@ export default () => ({
     port: parseInt(process.env.PORT, 10) || 3000,
     database: {
       host: process.env.DATABASE_HOST,
-      port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+      port: 6000,
+      // parseInt(process.env.DATABASE_PORT, 10) || 5432,
       username:"postgres",
-      password:`1235789`,
-      databaseName:"NestJS_DEV"
+      password:`Skazi2020`,
+      databaseName:"gis"
     }
   });

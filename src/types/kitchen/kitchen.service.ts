@@ -7,6 +7,7 @@ import { Cron } from '@nestjs/schedule';
 import { Op } from 'sequelize';
 import * as moment from 'moment';
 import { Kitchen } from './kitchen.model';
+import { CreateKitchenDTO } from './dto/create_kitchen.dto';
 
 @Injectable()
 export class KitchenService extends BaseService {
@@ -31,6 +32,10 @@ export class KitchenService extends BaseService {
 
     override async findOne(id: number): Promise<Kitchen> {
         return await this.kitchenRepository.findOne<Kitchen>({ where: { id: id }, include: { model: Product, through: { attributes: [] } } })
+    }
+
+    override async create(): Promise<Kitchen> {
+        return await this.kitchenRepository.create<Kitchen>()
     }
 
 

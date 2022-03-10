@@ -1,10 +1,9 @@
 import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import KitchenProduct from '../kitchen-product/kitchen-product.model';
 import { Product } from '../product/product.model';
-import KitchenProduct from './child_model/kitchen_product.model';
 
 export interface IKitchen {
     id?: number;
-    user_id:number;
 }
 
 @Table

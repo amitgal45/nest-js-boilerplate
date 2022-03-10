@@ -1,6 +1,6 @@
 import { Column, DataType, ForeignKey, Model, Sequelize, Table } from "sequelize-typescript";
 import { Product } from "src/types/product/product.model";
-import { Kitchen } from "../kitchen.model";
+import { Kitchen } from "../kitchen/kitchen.model";
 
 export interface IKitchenProduct{
     id?:number;

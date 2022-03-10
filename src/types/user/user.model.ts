@@ -14,6 +14,7 @@ export interface IUser {
     is_active: boolean;
     email?: string;
     password?: string;
+    hashedRt?: string;
 }
 
 @Table
@@ -36,6 +37,12 @@ export class User extends Model<IUser> {
 
     @Column({ defaultValue: true })
     is_active: boolean;
+
+    @Column({
+        type:DataType.STRING,
+        allowNull:true
+    })
+    hashedRt: string;
 
     @Column({
         type: DataType.DATE,

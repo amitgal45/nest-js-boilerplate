@@ -2,7 +2,7 @@ import { Product } from './product.model';
 
 export const productssProviders = [
   {
-    provide: 'SKILLS_REPOSITORY',
+    provide: 'PRODUCT_REPOSITORY',
     useValue: Product,
   },
 ];

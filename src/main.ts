@@ -17,10 +17,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
+  .addBearerAuth()
     .setTitle('NestJS-By Milk')
     .setDescription('NestJS-By Milk description')
     .setVersion('1.0')
-    // .addTag('milk')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);

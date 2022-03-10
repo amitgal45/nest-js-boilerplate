@@ -9,7 +9,7 @@ import UserRecipe from 'src/types/recipe/child_model/user_recipe.model';
 import RecipeProduct from 'src/types/recipe/child_model/recipe_product.model';
 import UserProducts from 'src/types/user/child_model/user_product.model';
 import { Kitchen } from 'src/types/kitchen/kitchen.model';
-import KitchenProduct from 'src/types/kitchen/child_model/kitchen_product.model';
+import KitchenProduct from 'src/types/kitchen-product/kitchen-product.model';
 
 const {database} = configuration();
 export const databaseProviders = [
