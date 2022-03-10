@@ -9,8 +9,17 @@ export interface IProduct {
     id?: number;
     name:string;
     img:string;
+    description:string;
+    type:ProductType;
+    
 }
 
+export enum ProductType {
+    דגנים,
+    לחם,
+    עוף,
+    בשר,
+}
 @Table
 export class Product extends Model<IProduct> {
 
@@ -22,6 +31,12 @@ export class Product extends Model<IProduct> {
 
     @Column({type:DataType.STRING,unique:true})
     bar_code: string;
+
+    @Column
+    description: string;
+
+    @Column
+    type: string;
 
     @Column
     img: string;

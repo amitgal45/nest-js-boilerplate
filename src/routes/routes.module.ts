@@ -46,7 +46,7 @@ import { UserModule } from 'src/types/user/user.module';
                 {
                     path: 'auth',
                     module: AuthModule,
-                },
+                }
             ]
         },
     ]),]

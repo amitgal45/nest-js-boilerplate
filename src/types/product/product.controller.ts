@@ -65,7 +65,7 @@ export class ProductController {
     }
 
     @Post('/init')
-    async init():Promise<IProduct[]>{
+    async init():Promise<Product[]>{
         try {
            return await this.productService.createInit();
         }

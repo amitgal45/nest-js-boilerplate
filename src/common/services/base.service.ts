@@ -3,6 +3,7 @@ import { IImage, Image } from "src/types/image/image.model";
 import { CreateKitchenDTO } from "src/types/kitchen/dto/create_kitchen.dto";
 import { IKitchen, Kitchen } from "src/types/kitchen/kitchen.model";
 import { ILocation, Location } from "src/types/location/location.model";
+import { CreateProductDTO } from "src/types/product/dto/create_product.dto";
 import { IProduct, Product } from "src/types/product/product.model";
 import UserProducts, { IUserProduct } from "src/types/user/child_model/user_product.model";
 import { CreateUserDTO } from "src/types/user/dto/create_user.dto";
@@ -32,7 +33,7 @@ export default class  BaseService {
 
     }
 
-    async create(new_value: CreateUserDTO | ILocation | IProduct | UserProducts|CreateKitchenDTO | Image): Promise<any> {
+    async create(new_value: CreateUserDTO | ILocation | IProduct | UserProducts|CreateKitchenDTO | Image|IProduct|CreateProductDTO): Promise<any> {
         return await this.value.create<User | Location | Product | UserProducts|Kitchen | Image>(new_value as any)
         .catch(err=>{throw err})
 

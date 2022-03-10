@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpException,
+    HttpStatus,
+    Param,
+    Post,
+    Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Product } from '../product/product.model';
 import { User } from '../user/user.model';
 import { UserService } from '../user/user.service';
 import { CreateKitchenDTO } from './dto/create_kitchen.dto';
@@ -11,15 +20,17 @@ import { KitchenService } from './kitchen.service';
 @Controller()
 export class KitchenController {
 
-    constructor(private kitchenService: KitchenService,private userService:UserService) { }
+
+    constructor(private kitchenService: KitchenService, private userService: UserService) { }
 
     @Get()
     async getAll(): Promise<Kitchen[]> {
-        try{
+        try {
             return await this.kitchenService.findAll();
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+        catch (err) { throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
     }
+
 
     @Get('/:id')
     async getByID(@Param('id') id: number): Promise<Kitchen> {
@@ -27,25 +38,26 @@ export class KitchenController {
             const kitchen: Kitchen = await this.kitchenService.findOne(id);
             if (kitchen == null)
                 throw new HttpException("Err", HttpStatus.MISDIRECTED);
-
-            return kitchen
+            return kitchen;
+        } catch (err) {
+            throw new HttpException(err.message, HttpStatus.FORBIDDEN);
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 
     @Post()
     async create(@Body() createKitchenDTO: CreateKitchenDTO) {
         try {
-            const user:User = await this.userService.findByKeyValue("id",createKitchenDTO.user_id);
-            if(user!=null && user.kitchen_id)
+            const user: User = await this.userService.findByKeyValue("id", createKitchenDTO.user_id);
+            if (user != null && user.kitchen_id)
                 throw new Error("למשתמש כבר קיים מטבח")
-            
-            const kitchen:Kitchen = await this.kitchenService.create()
-            user.kitchen_id=kitchen.id;
+
+            const kitchen: Kitchen = await this.kitchenService.create()
+            user.kitchen_id = kitchen.id;
             return await user.save()
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
+        catch (err) { throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
     }
+
 
     // @Put()
     // async update(@Body() updateUserDTO: UpdateUserDTO) {
@@ -58,8 +70,9 @@ export class KitchenController {
     @Delete(':id')
     async delete(@Param('id') id: number): Promise<any> {
         try {
-            return await this.kitchenService.delete(id)
+            return await this.kitchenService.delete(Number(id));
+        } catch (err) {
+            throw new HttpException(err.message, HttpStatus.FORBIDDEN);
         }
-        catch (err) {throw new HttpException(err.message, HttpStatus.FORBIDDEN)};
     }
 }
