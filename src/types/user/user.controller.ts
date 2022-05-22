@@ -1,11 +1,12 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { multerOptions } from 'src/common/services/file_name.config';
 import { Image } from '../image/image.model';
 import { ImageService } from '../image/image.service';
 // import { ImageService } from '../image/image.service';
 import { CreateUserDTO, createUserDTOSwagger } from './dto/create_user.dto';
+import { UserResDTO } from './dto/res.dto';
 import { UpdateUserDTO } from './dto/update_user.dto';
 import { User } from './user.model';
 import { UserService } from './user.service';
@@ -16,6 +17,8 @@ export class UserController {
 
     constructor(private userService: UserService, private imageService: ImageService) { }
 
+    @ApiOperation({description:'This function receives all the schema objects' })
+    @ApiResponse({ status: 200, description: 'Users Schema'})
     @Get()
     async getAll(): Promise<User[]> {
         try {
@@ -39,6 +42,7 @@ export class UserController {
     @Post()
     @ApiConsumes('multipart/form-data')
     @ApiBody(createUserDTOSwagger)
+    @ApiResponse({status:200,type:UserResDTO})
     @UseInterceptors(FileInterceptor('file', multerOptions))
     async create(@Body() createUserDTO: CreateUserDTO, @UploadedFile() file: Express.Multer.File) {
         try {

@@ -1,5 +1,5 @@
-import { STRING } from 'sequelize';
-import {  BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {  BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table,BelongsTo } from 'sequelize-typescript';
+import { Image } from '../image/image.model';
 import KitchenProduct from '../kitchen-product/kitchen-product.model';
 import { Kitchen } from '../kitchen/kitchen.model';
 import RecipeProduct from '../recipe/child_model/recipe_product.model';
@@ -8,9 +8,11 @@ import { Recipe } from '../recipe/recipe.model';
 export interface IProduct {
     id?: number;
     name:string;
-    img:string;
     description?:string;
     type?:ProductType;
+    bar_code?:string;
+    image?:Image;
+    image_id?:number;
     
 }
 
@@ -29,7 +31,7 @@ export class Product extends Model<IProduct> {
     @Column({type:DataType.STRING,unique:true})
     name: string;
 
-    @Column({type:DataType.STRING,unique:true})
+    @Column({type:DataType.STRING})
     bar_code: string;
 
     @Column
@@ -38,8 +40,6 @@ export class Product extends Model<IProduct> {
     @Column
     type: string;
 
-    @Column
-    img: string;
 
     @Column({
         type: DataType.DATE,
@@ -55,11 +55,18 @@ export class Product extends Model<IProduct> {
     })
     updatedAt?: Date;
 
-    @BelongsToMany(() => Kitchen,()=>KitchenProduct)
-    kitchens: Kitchen[]
+    @HasMany(() => KitchenProduct)
+    kitchen_product: KitchenProduct[]
 
     @BelongsToMany(() => Recipe,()=>RecipeProduct)
     recipes: Recipe[];
+
+    @ForeignKey(() => Image)
+    @Column({ field: 'image_id' })
+    image_id: number;
+  
+    @BelongsTo(() => Image)
+    image: Image;
 
 }
 

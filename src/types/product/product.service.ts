@@ -24,6 +24,7 @@ export class ProductService extends BaseService {
     }
 
     create(product: CreateProductDTO) {
+        console.log(product)
         return this.productRepository.create(product).catch(err => err)
     }
 

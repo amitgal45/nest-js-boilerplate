@@ -1,8 +1,8 @@
-version: "3.8"
+version: '3.8'
 volumes:
   dbbackups:
   postgis-data:
-  
+
 services:
   adminer:
     image: adminer
@@ -30,7 +30,6 @@ services:
     restart: on-failure
     healthcheck:
       test: "exit 0"
-
   dbbackups:
     image: kartoza/pg-backup
     hostname: pg-backups
@@ -47,4 +46,3 @@ services:
     depends_on:
       db:
         condition: service_healthy
-

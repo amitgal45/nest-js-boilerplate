@@ -6,8 +6,8 @@ export default () => ({
       host: process.env.DATABASE_HOST,
       port: 6000,
       // parseInt(process.env.DATABASE_PORT, 10) || 5432,
-      username:"postgres",
-      password:`Skazi2020`,
-      databaseName:"gis"
+      username:"user",
+      password:`password`,
+      databaseName:"db"
     }
   });

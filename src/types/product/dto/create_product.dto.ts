@@ -10,9 +10,8 @@ export class CreateProductDTO {
     @Length(2,40)
     name: string;
 
-    @ApiProperty()
-    @IsString()
-    img: string;
+    image_id?:number
+
 
 }
 
@@ -24,11 +23,7 @@ export const createUserDTOSwagger = {
                 type: 'string',
                 format: 'binary',
             },
-            email:{type:'string'},
-            password:{type:'string'},
-            first_name:{type:'string'},
-            last_name:{type:'string'},
-            is_active:{type:'boolean'}
+            name:{type:'string'},
         },
     },
 }

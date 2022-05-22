@@ -98,14 +98,14 @@ export class User extends Model<IUser> {
   static async hashPasswordBeforeUpdate(user: User) {
     try {
       // Encrypt User Data
-      const encryptedFirstName = encryptionService.encrypt(user.first_name);
-      const encryptedLastName = encryptionService.encrypt(user.last_name);
-      const encryptedEmail = encryptionService.encrypt(user.email);
-      const encryptedPassword = await encryptionService.hashing(user.password);
-      user.password = encryptedPassword;
-      user.first_name = encryptedFirstName;
-      user.last_name = encryptedLastName;
-      user.email = encryptedEmail;
+      // const encryptedFirstName = encryptionService.encrypt(user.first_name);
+      // const encryptedLastName = encryptionService.encrypt(user.last_name);
+      // const encryptedEmail = encryptionService.encrypt(user.email);
+      if(user.password){
+        const encryptedPassword = await encryptionService.hashing(user.password);
+        user.password = encryptedPassword;
+      }
+
     } catch (err) {
       console.log(err);
       throw err;
@@ -116,12 +116,12 @@ export class User extends Model<IUser> {
   static After(user: User) {
     try {
       // decrypt User Data
-      const decryptedFirstName = encryptionService.decrypt(user.first_name);
-      const decryptedLastName = encryptionService.decrypt(user.last_name);
-      const decryptedEmail = encryptionService.decrypt(user.email);
-      user.first_name = decryptedFirstName;
-      user.last_name = decryptedLastName;
-      user.email = decryptedEmail;
+      // const decryptedFirstName = encryptionService.decrypt(user.first_name);
+      // const decryptedLastName = encryptionService.decrypt(user.last_name);
+      // const decryptedEmail = encryptionService.decrypt(user.email);
+      // user.first_name = decryptedFirstName;
+      // user.last_name = decryptedLastName;
+      // user.email = decryptedEmail;
     } catch (err) {
       console.log(err);
       throw err;

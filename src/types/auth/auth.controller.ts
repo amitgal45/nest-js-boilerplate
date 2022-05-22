@@ -1,9 +1,12 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { GetCurrentUser } from 'src/common/decorators';
 import { GetCurrentUserById } from 'src/common/decorators/get-current-user-by-id.decorator';
+import { multerOptions } from 'src/common/services/file_name.config';
+import { CreateUserDTO, createUserDTOSwagger } from '../user/dto/create_user.dto';
 import { AuthService } from './auth.service';
 import { LoginAuthDto } from './dto/login_auth.dto';
 import { RegisterAuthDto } from './dto/register_auth.dto';
@@ -16,10 +19,14 @@ export class AuthController {
 
 
     constructor(private authService:AuthService){}
+    
     @Post('/local/signup')
+    @ApiConsumes('multipart/form-data')
+    @ApiBody(createUserDTOSwagger)
+    @UseInterceptors(FileInterceptor('file', multerOptions))
     @HttpCode(HttpStatus.CREATED)
-    signupLocal(@Body() dto:RegisterAuthDto ){
-        return this.authService.signUpLocal(dto)
+    signupLocal(@Body() dto:CreateUserDTO,@UploadedFile() file: Express.Multer.File ){
+        return this.authService.signUpLocal(dto,file)
     }
 
     @Post('/local/signin')

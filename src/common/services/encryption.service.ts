@@ -1,5 +1,5 @@
 // crypto module
-import crypto, { createCipheriv, createDecipheriv, randomBytes } from 'crypto';
+import  { createCipheriv, createDecipheriv } from 'crypto';
 import * as bcrypt from 'bcrypt';
 
 class EncryptionClass {
@@ -33,6 +33,8 @@ class EncryptionClass {
       );
 
       let decryptedData = decipher.update(value, 'hex', 'utf-8');
+      console.log(decryptedData)
+
       decryptedData += decipher.final('utf8');
       return decryptedData;
     } catch (err) {

@@ -31,7 +31,7 @@ export class KitchenService extends BaseService {
     }
 
     override async findOne(id: number): Promise<Kitchen> {
-        return await this.kitchenRepository.findOne<Kitchen>({ where: { id: id }, include: { model: Product, through: { attributes: [] } } })
+        return await this.kitchenRepository.findOne<Kitchen>({ where: { id: id } })
     }
 
     override async create(): Promise<Kitchen> {

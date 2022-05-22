@@ -1,7 +1,8 @@
 import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { diskStorage } from 'multer';
+import { diskStorage,Multer } from 'multer';
+import {Express} from 'express'
 import {  multerOptions } from 'src/common/services/file_name.config';
 
 @ApiTags('image')

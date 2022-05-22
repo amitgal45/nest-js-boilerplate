@@ -1,4 +1,4 @@
-import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import KitchenProduct from '../kitchen-product/kitchen-product.model';
 import { Product } from '../product/product.model';
 
@@ -26,8 +26,8 @@ export class Kitchen extends Model<IKitchen> {
     })
     updatedAt?: Date;
 
-    @BelongsToMany(() => Product,()=>KitchenProduct)
-    products: Product[];
+    @HasMany(() => KitchenProduct)
+    kitchen_products: Product[];
 
     
  

@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { IsDataURI, IsDateString, IsNumber } from "class-validator";
+import { IsDate } from "sequelize-typescript";
 
 export class CreateKitchenProductDto {
 
@@ -10,4 +11,12 @@ export class CreateKitchenProductDto {
     @ApiProperty()
     @IsNumber()
     kitchen_id?:number;
+
+    @ApiProperty()
+    @IsDateString()
+    expiry_date?:Date;
+
+    @ApiProperty()
+    @IsNumber()
+    quantity?:number;
 }

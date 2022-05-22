@@ -12,7 +12,8 @@ export class KitchenProductService {
   private kitchenProductRepository: typeof KitchenProduct) { 
   }
   create(createKitchenProductDto: CreateKitchenProductDto) {
-    return this.kitchenProductRepository.create(createKitchenProductDto).catch(err=>err)
+    console.log("3####df##",createKitchenProductDto)
+    return this.kitchenProductRepository.create(createKitchenProductDto).catch(err=>{console.log(err);throw err})
   }
 
   findAll() {

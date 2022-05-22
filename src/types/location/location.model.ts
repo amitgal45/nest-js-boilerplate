@@ -1,5 +1,4 @@
 import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
-import { Col } from 'sequelize/dist/lib/utils';
 import { User } from 'src/types/user/user.model';
 // import {GEOMETRY,GEOGRAPHY} from 'sequelize'
 import { STRING,GEOGRAPHY } from 'sequelize/types';

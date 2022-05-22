@@ -16,6 +16,10 @@ export class Image extends Model<IImage> {
     @Column
     imageUrl: string;
 
+    @Column
+    sequense:number;
+
+
     @Column({
         type: DataType.DATE,
         field: 'createdAt',

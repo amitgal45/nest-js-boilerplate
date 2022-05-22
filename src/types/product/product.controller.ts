@@ -1,6 +1,9 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { CreateProductDTO } from './dto/create_product.dto';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { multerOptions } from 'src/common/services/file_name.config';
+import { ImageService } from '../image/image.service';
+import { CreateProductDTO, createUserDTOSwagger } from './dto/create_product.dto';
 import { UpdateProductDTO } from './dto/update_product.dto';
 import { IProduct, Product } from './product.model';
 import { ProductService } from './product.service';
@@ -9,7 +12,7 @@ import { ProductService } from './product.service';
 @Controller()
 export class ProductController {
 
-    constructor(private productService: ProductService) {
+    constructor(private productService: ProductService,private imageService:ImageService) {
         // super();
 
     }
@@ -34,10 +37,16 @@ export class ProductController {
         }
     }
 
+    @ApiConsumes('multipart/form-data')
+    @ApiBody(createUserDTOSwagger)
+    @UseInterceptors(FileInterceptor('file', multerOptions))
     @Post('/')
-    async create(@Body() product:CreateProductDTO):Promise<IProduct[]>{
+    async create(@Body() product:CreateProductDTO, @UploadedFile() file: Express.Multer.File):Promise<IProduct[]>{
         try {
-           return await this.productService.create(product);
+            const productData:CreateProductDTO = {...product};
+            const img = await this.imageService.create(file.filename)
+            productData.image_id = img.id;
+           return await this.productService.create(productData);
         }
         catch (err) {
             throw new HttpException(err.message, HttpStatus.FORBIDDEN);

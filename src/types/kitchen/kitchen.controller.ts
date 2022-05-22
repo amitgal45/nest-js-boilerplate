@@ -52,10 +52,12 @@ export class KitchenController {
                 throw new Error("למשתמש כבר קיים מטבח")
 
             const kitchen: Kitchen = await this.kitchenService.create()
-            user.kitchen_id = kitchen.id;
-            return await user.save()
+            await user.update({kitchen_id:kitchen.id})
+            return await user
         }
-        catch (err) { throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
+        catch (err) { 
+            console.log(err)
+            throw new HttpException(err.message, HttpStatus.FORBIDDEN) };
     }
 
 

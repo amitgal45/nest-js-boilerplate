@@ -1,5 +1,5 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
+import { IsDataURI, IsNumber } from 'class-validator';
 import { CreateKitchenProductDto } from './create-kitchen-product.dto';
 
 export class UpdateKitchenProductDto  {
@@ -16,4 +16,12 @@ export class UpdateKitchenProductDto  {
     @ApiProperty()
     @IsNumber()
     kitchen_id?:number;
+
+    @ApiProperty()
+    @IsDataURI()
+    expiry_date?:Date;
+
+    @ApiProperty()
+    @IsNumber()
+    quantity?:number;
 }

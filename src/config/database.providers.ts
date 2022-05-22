@@ -16,16 +16,10 @@ export const databaseProviders = [
   {
     provide: 'SEQUELIZE',
     useFactory: async () => {
-      const sequelize = new Sequelize({
-        dialect: 'postgres',
-        host: database.host,
-        port: database.port,
-        username: database.username,
-        password: database.password,
-        database: database.databaseName,
-      });
+      // const sequelize = new Sequelize("postgres://postgres:Skazi2020@db:5432/gis");
+      const sequelize = new Sequelize("postgres://postgres:Skazi2020@localhost:6000/gis");
       sequelize.addModels([User,Location,Product,UserProducts,Image,Kitchen,KitchenProduct,Recipe,UserRecipe,RecipeProduct]);
-      console.log(process.env.DATABASE_PORT)
+      console.log(process.env.DATABASE_URL)
       await sequelize.sync({
           // force:true
       });

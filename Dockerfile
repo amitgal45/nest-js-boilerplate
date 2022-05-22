@@ -1,14 +1,22 @@
-FROM node:14.15.0-alpine3.10
+FROM node:16
 
-USER 2000
-RUN mkdir -p /home/node/app/node_modules && chown -R 2000:2000 /home/node/app
+# Create app directory, this is in our container/in our image
+WORKDIR /thomas/src/app
 
-WORKDIR /home/node/app
-COPY --chown=2000:2000 . /home/node/app
-RUN yarn install
-RUN yarn build
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+RUN npm install -g @nestjs/cli
+# RUN npm rebuild bcrypt --build-from-source
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
-EXPOSE 3000
+# Bundle app source
+COPY . .
 
-ENTRYPOINT ["node"]
-CMD ["/home/node/app/dist/main.js"]
+RUN npm run build
+
+EXPOSE 8080
+CMD [ "node", "dist/main" ]
